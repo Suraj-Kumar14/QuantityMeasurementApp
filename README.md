@@ -38,7 +38,7 @@ main
 
 ### 🔹 UC2 – Feet and Inches Measurement Equality
 
-**Branch:** `feature/UC2-InchEquality`
+**Branch:** `feature/UC2-GenericLength`
 
 ### 🎯 Objective
 
