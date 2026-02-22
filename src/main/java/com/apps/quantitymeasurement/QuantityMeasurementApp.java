@@ -1,3 +1,7 @@
+/*
+  * @version 4.0
+  * @author Suraj Kumar
+ */
 package com.apps.quantitymeasurement;
 public class QuantityMeasurementApp {
 
@@ -97,6 +101,10 @@ public class QuantityMeasurementApp {
 		System.out.println("1 Inch == 1 foot : "+_1Inches.equals(_Foot));
 		
 	}
+	
+	 public static boolean demonstrateLengthComparison(Length l1,Length l2) {
+	    	return l1.compare(l2);
+	    }
 		
 	//main method to demonstrate Inches equality check
 	public static void main(String[] args) {
@@ -104,7 +112,22 @@ public class QuantityMeasurementApp {
 		demonstrateInchesEquality();
 		
 		demonstrateFeetInchComparison();
-		System.out.println(demonstrateLengthEquality(new Length(1,Length.LengthUnit.FEET),new Length(12,Length.LengthUnit.INCHES)));
+		
+		//Domonstrate Feet to Inches
+		System.out.println(demonstrateLengthEquality(new Length(1,Length.LengthUnit.FEET), new Length(12,Length.LengthUnit.INCHES)));
+				
+				
+		//Domonstrate Yard to Inch
+		System.out.println(demonstrateLengthEquality(new Length(1.0,Length.LengthUnit.YARDS), new Length(36.0,Length.LengthUnit.INCHES)));
+				
+		//Domonstrate Centimeter to Inch
+		System.out.println(demonstrateLengthEquality(new Length(100.0,Length.LengthUnit.CENTIMETERS), new Length(39.37,Length.LengthUnit.INCHES)));
+				
+		//Domonstrate Feet to Yard
+		System.out.println(demonstrateLengthEquality(new Length(3.0,Length.LengthUnit.FEET), new Length(1.0,Length.LengthUnit.YARDS)));
+				
+		//Domonstrate Centimeter to feet
+		System.out.println(demonstrateLengthEquality(new Length(30.48,Length.LengthUnit.CENTIMETERS), new Length(1.0,Length.LengthUnit.FEET)));
 	}
 
 	
