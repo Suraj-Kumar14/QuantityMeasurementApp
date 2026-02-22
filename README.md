@@ -18,24 +18,21 @@ This project was implemented incrementally using:
 
 ---
 
----
-
 ## 📅 20 Feb 2026
 
-### 🔹 UC4 – Extended Unit Support
+### 🔹 UC5 – Unit-to-Unit Conversion
 
-**Branch:** `feature/UC4-YardEquality`
+**Branch:** `feature/UC5-UnitConversion`
 
 ### 🎯 Objective
 
-- Support additional units (Yard, etc.)
-- Make system scalable
+- Convert one unit into another
 
 ### ✅ Implementation
 
-- Introduced Unit Enum
-- Base unit conversion mapping
-- Easily extensible structure  
-  -- [feature/UC4-ExtendedUnitSupport](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC4-ExtendedUnitSupport/src)
+- Implemented `convertTo()` method
+- Centralized conversion logic
+- Ensured precision-safe calculations  
+  -- [feature/UC4-UnitConversion](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC4-UnitConversion/src)
 
 ---
