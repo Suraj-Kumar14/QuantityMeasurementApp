@@ -7,6 +7,8 @@ public class Length {
 	//Instance variables
 	private double value;
 	private LengthUnit unit;
+	private static final double EPSILON = 0.01;
+
 	
 	// Enum to represent different length units and their conversion factors
 	// with the base unit being inches. This means all the conversion factors
@@ -39,14 +41,15 @@ public class Length {
 	
 	//Convert the length value to the base unit(inches) and round off to two decimal places
 	private double convertToBaseUnit() {
-		double convertedValue= this.value*this.unit.getConversionFactor();
-		return Math.round(convertedValue*100)/100;
+		return ((this.value*this.unit.getConversionFactor())*100.0)/100.0;
+
 	}
 	
 	// Compare two Length objects for equality based on their values in the base unit
 	public boolean compare(Length len) {
-		return Double.compare(this.convertToBaseUnit(),len.convertToBaseUnit())==0;
+		return Math.abs(this.convertToBaseUnit() - len.convertToBaseUnit()) < EPSILON;
 	}
+	
 
 	// Equals method is overridden to firstly check if the two objects are the same reference.
 	// If not, it checks if the other object is null or of a different class.
@@ -73,19 +76,37 @@ public class Length {
 		return Objects.hash(convertToBaseUnit());
 	}
 	
-	// Main method for standalone testing
+	@Override
+	public String toString() {
+		return "Length [value=" + value + ", unit=" + unit + "]";
+	}
 	
+	public Length convertTo(LengthUnit targetUnit) {
+
+	    if (targetUnit == null)
+	        throw new IllegalArgumentException("Unit cannot be null");
+
+	    // Step 1: Convert current value to base unit
+	    double baseValue = this.value * this.unit.getConversionFactor();
+
+	    // Step 2: Convert base to target
+	    double convertedValue = baseValue / targetUnit.getConversionFactor();
+
+	    return new Length(convertedValue, targetUnit);
+	}
+	
+	// Main method for standalone testing
 	public static void main(String[] args) {
-		Length length1 = new Length(1.0, LengthUnit.FEET);
-		Length length2 = new Length(12.0, LengthUnit.INCHES);
-		System.out.println("Are lengths equals? " + length1.equals(length2)); // Should print true;
+		Length len1 = new Length(1,Length.LengthUnit.FEET);
+		Length len2 = new Length(12,Length.LengthUnit.INCHES);
+		System.out.println("Are lengths equals? " + len1.equals(len2)); // Should print true;
 		
-		Length length3 = new Length(1, LengthUnit.YARDS);
-		Length length4 = new Length(36, LengthUnit.INCHES);
-		System.out.println("Are lengths equals? " + length3.equals(length4)); // Should print true;
+		Length len3 = new Length(1.0,Length.LengthUnit.YARDS);
+		Length len4 = new Length(36.0,Length.LengthUnit.INCHES);
+		System.out.println("Are lengths equals? " +len3.equals(len4));
 		
-		Length length5 = new Length(100, LengthUnit.CENTIMETERS);
-		Length length6 = new Length(39.3701, LengthUnit.INCHES);
-		System.out.println("Are lengths equals? " + length5.equals(length6)); // Should print true;
+		Length len5 = new Length(100.0,Length.LengthUnit.CENTIMETERS);
+		Length len6 = new Length(39.37,Length.LengthUnit.INCHES);
+		System.out.println("Are lengths equals? " +len5.equals(len6));
 	}
 }
