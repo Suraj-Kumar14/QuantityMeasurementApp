@@ -51,6 +51,6 @@ main
 - Centralized conversion logic
 - Removed unit-specific duplication
 - Improved abstraction
-- [feature/UC2-InchEquality](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC3-GenericLength/src)
+- [feature/UC3-GenericLength](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC3-GenericLength/src)
 
 ---
