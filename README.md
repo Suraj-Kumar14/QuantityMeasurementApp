@@ -18,39 +18,24 @@ This project was implemented incrementally using:
 
 ---
 
-# 🌳 Git Workflow
-
-```
-main
- └── dev
-      ├── feature/UC1-FeetEquality
-      ├── feature/UC2-InchEquality
-      ├── feature/UC3-GenericQuantityClassForDRYPrinciple
-      ├── feature/UC4-Extended-Unit-Support
-      ├── feature/UC5-Unit-to-Unit-Conversion
-      ├── feature/UC6-Addition-Of-Two-Length-Units
-      └── feature/UC7-Addition-With-Target-Unit-Specification
-```
-
 ---
 
-## 📅 19 Feb 2026
+## 📅 20 Feb 2026
 
-### 🔹 UC3 – Generic Quantity Class (DRY Principle)
+### 🔹 UC4 – Extended Unit Support
 
-**Branch:** `feature/UC3-GenericLength`
+**Branch:** `feature/UC4-YardEquality`
 
 ### 🎯 Objective
 
-- Remove duplication
-- Introduce reusable `Quantity` class
-- Apply DRY principle
+- Support additional units (Yard, etc.)
+- Make system scalable
 
 ### ✅ Implementation
 
-- Centralized conversion logic
-- Removed unit-specific duplication
-- Improved abstraction
-- [feature/UC2-InchEquality](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC3-GenericLength/src)
+- Introduced Unit Enum
+- Base unit conversion mapping
+- Easily extensible structure  
+  -- [feature/UC4-ExtendedUnitSupport](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC4-ExtendedUnitSupport/src)
 
 ---
