@@ -59,7 +59,7 @@ public class QuantityMeasurementApp {
 			
 		}
 	}
-	
+		
 	//static method to demonstrate feet equality check
 	public static void demonstrateFeetEquality() {
 		Feet feet1 = new Feet(1.0);
@@ -76,10 +76,36 @@ public class QuantityMeasurementApp {
 		System.out.println("Equal"+"("+inch1.equals(inch2)+")");
 	}
 	
+	// generic method to demonstrate Length equality check
+	public static boolean demonstrateLengthEquality(Length length1, Length length2) {
+		return length1.compare(length2);
+	}
+		
+	//static method to demonstrate Feet and Inches comparison
+	public static void demonstrateFeetInchComparison() {
+		
+		Length _1Feet=new Length(1,Length.LengthUnit.FEET);
+		Length _12Inches=new Length(12,Length.LengthUnit.INCHES);
+		System.out.println("1 Feet = 12 Inches: "+_1Feet.equals(_12Inches));
+		
+		Length _3Feet = new Length(3,Length.LengthUnit.FEET);
+		Length _36Inches=new Length(36,Length.LengthUnit.INCHES);
+		System.out.println("3 Feet = 36 Inches: "+_3Feet.equals(_36Inches));
+		
+		Length _1Inches=new Length(1,Length.LengthUnit.INCHES);
+		Length _Foot=new Length(1,Length.LengthUnit.FEET);
+		System.out.println("1 Inch == 1 foot : "+_1Inches.equals(_Foot));
+		
+	}
+		
 	//main method to demonstrate Inches equality check
 	public static void main(String[] args) {
 		demonstrateFeetEquality();
 		demonstrateInchesEquality();
+		
+		demonstrateFeetInchComparison();
+		System.out.println(demonstrateLengthEquality(new Length(1,Length.LengthUnit.FEET),new Length(12,Length.LengthUnit.INCHES)));
 	}
 
+	
 }
