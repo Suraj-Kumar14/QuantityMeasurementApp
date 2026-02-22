@@ -3,6 +3,9 @@
   * @author Suraj Kumar
  */
 package com.apps.quantitymeasurement;
+
+import com.apps.quantitymeasurement.Length.LengthUnit;
+
 public class QuantityMeasurementApp {
 
 	//Inner class to represent Feet measurement
@@ -102,12 +105,25 @@ public class QuantityMeasurementApp {
 		
 	}
 	
+	public static Length demonstrateLengthConversion(Length l1, LengthUnit unit) throws InvalidUnitMeasurementException{
+		l1 = l1.convertTo(unit);
+		return l1;
+	}
+	
+	public static Length demonstrateLengthConversion(Double val, LengthUnit unit1, LengthUnit unit2) throws InvalidUnitMeasurementException{
+		if(val==null) {
+			throw new InvalidUnitMeasurementException("Value null!");
+		}
+		Length result = new Length(val,unit1);
+		return result.convertTo(unit2);
+	}
+	
 	 public static boolean demonstrateLengthComparison(Length l1,Length l2) {
 	    	return l1.compare(l2);
 	    }
 		
 	//main method to demonstrate Inches equality check
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InvalidUnitMeasurementException {
 		demonstrateFeetEquality();
 		demonstrateInchesEquality();
 		
@@ -128,6 +144,21 @@ public class QuantityMeasurementApp {
 				
 		//Domonstrate Centimeter to feet
 		System.out.println(demonstrateLengthEquality(new Length(30.48,Length.LengthUnit.CENTIMETERS), new Length(1.0,Length.LengthUnit.FEET)));
+	
+		//Input: convert(1.0, FEET, INCHES) → Output: 12.0
+		  System.out.println("Convert Feet to Inches: "+(demonstrateLengthConversion(1.0, Length.LengthUnit.FEET, Length.LengthUnit.INCHES)));
+	
+		  //Input: convert(3.0, YARDS, FEET) → Output: 9.0
+		  System.out.println("Convert Yard to Feet: "+(demonstrateLengthConversion(3.0, Length.LengthUnit.YARDS, Length.LengthUnit.FEET)));
+		
+		  //Input: convert(36.0, INCHES, YARDS) → Output: 1.0
+			System.out.println("Convert Inches to Yard: "+(demonstrateLengthConversion(36.0, Length.LengthUnit.INCHES, Length.LengthUnit.YARDS)));
+			
+		  //Input: convert(1.0, CENTIMETERS, INCHES) → Output: ~0.393701
+			System.out.println("Convert Centimeter to Inches: "+(demonstrateLengthConversion(1.0, Length.LengthUnit.CENTIMETERS, Length.LengthUnit.INCHES)));
+			
+		 //Input: convert(0.0, FEET, INCHES) → Output: 0.0
+			System.out.println("Convert Feet to Inches: "+(demonstrateLengthConversion(0.0, Length.LengthUnit.FEET, Length.LengthUnit.INCHES)));
 	}
 
 	
