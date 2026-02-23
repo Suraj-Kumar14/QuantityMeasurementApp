@@ -8,6 +8,7 @@ import com.apps.quantitymeasurement.Length.LengthUnit;
 
 public class QuantityMeasurementApp {
 
+	/*
 	//Inner class to represent Feet measurement
 	public static class Feet{
 		
@@ -66,21 +67,22 @@ public class QuantityMeasurementApp {
 			
 		}
 	}
+	*/
 		
 	//static method to demonstrate feet equality check
 	public static void demonstrateFeetEquality() {
-		Feet feet1 = new Feet(1.0);
-		Feet feet2 = new Feet(1.0);
+		Length len1 = new Length(1.0,LengthUnit.FEET);
+		Length len2=new Length(1.0,LengthUnit.FEET);
 		
-		System.out.println("Equal"+"("+feet1.equals(feet2)+")");
+		System.out.println("Equal"+"("+len1.equals(len2)+")");
 	}
 	
 	//static method to demonstrate Inches equality check
 	public static void demonstrateInchesEquality() {
-		Inches inch1 = new Inches(1.0);
-		Inches inch2 = new Inches(1.0);
+		Length len1=new Length(1.0,LengthUnit.INCHES);
+		Length len2=new Length(1.0,LengthUnit.INCHES);
 		
-		System.out.println("Equal"+"("+inch1.equals(inch2)+")");
+		System.out.println("Equal"+"("+len1.equals(len2)+")");
 	}
 	
 	// generic method to demonstrate Length equality check
@@ -120,7 +122,14 @@ public class QuantityMeasurementApp {
 	
 	 public static boolean demonstrateLengthComparison(Length l1,Length l2) {
 	    	return l1.compare(l2);
-	    }
+	 }
+	 
+	 public static Length demonstrateLengthAddition(Length len1,Length len2) {
+		 if(len1==null || len2==null) {
+				throw new IllegalArgumentException("Unit cannot be null");
+		 }
+		return (len1.add(len2));
+	 }
 		
 	//main method to demonstrate Inches equality check
 	public static void main(String[] args) throws InvalidUnitMeasurementException {
@@ -145,20 +154,47 @@ public class QuantityMeasurementApp {
 		//Domonstrate Centimeter to feet
 		System.out.println(demonstrateLengthEquality(new Length(30.48,Length.LengthUnit.CENTIMETERS), new Length(1.0,Length.LengthUnit.FEET)));
 	
-		//Input: convert(1.0, FEET, INCHES) → Output: 12.0
+		// convert(1.0, FEET, INCHES) → Output: 12.0
 		  System.out.println("Convert Feet to Inches: "+(demonstrateLengthConversion(1.0, Length.LengthUnit.FEET, Length.LengthUnit.INCHES)));
 	
-		  //Input: convert(3.0, YARDS, FEET) → Output: 9.0
+		  // convert(3.0, YARDS, FEET) → Output: 9.0
 		  System.out.println("Convert Yard to Feet: "+(demonstrateLengthConversion(3.0, Length.LengthUnit.YARDS, Length.LengthUnit.FEET)));
 		
-		  //Input: convert(36.0, INCHES, YARDS) → Output: 1.0
+		  // convert(36.0, INCHES, YARDS) → Output: 1.0
 			System.out.println("Convert Inches to Yard: "+(demonstrateLengthConversion(36.0, Length.LengthUnit.INCHES, Length.LengthUnit.YARDS)));
 			
-		  //Input: convert(1.0, CENTIMETERS, INCHES) → Output: ~0.393701
+		  // convert(1.0, CENTIMETERS, INCHES) → Output: ~0.393701
 			System.out.println("Convert Centimeter to Inches: "+(demonstrateLengthConversion(1.0, Length.LengthUnit.CENTIMETERS, Length.LengthUnit.INCHES)));
 			
-		 //Input: convert(0.0, FEET, INCHES) → Output: 0.0
+		 // convert(0.0, FEET, INCHES) → Output: 0.0
 			System.out.println("Convert Feet to Inches: "+(demonstrateLengthConversion(0.0, Length.LengthUnit.FEET, Length.LengthUnit.INCHES)));
+
+			
+		//Add two feet  
+		System.out.println("1.0 FEET + 2.0 FEET = "+demonstrateLengthAddition(new Length(1.0,LengthUnit.FEET),new Length(2.0,LengthUnit.FEET)));
+	
+		//Add feet and inches
+		System.out.println("1.0 FEET + 12.0 INCHES = "+demonstrateLengthAddition(new Length(1.0,LengthUnit.FEET),new Length(12.0,LengthUnit.INCHES)));
+		
+		//Add Inches and Feet
+		System.out.println("12.0 INCHES + 1.0 FEET = "+demonstrateLengthAddition(new Length(12.0,LengthUnit.INCHES),new Length(1.0,LengthUnit.FEET)));
+	
+		//Add yards and feet
+		System.out.println("1.0 YARDS + 3.0 FEET = "+demonstrateLengthAddition(new Length(1.0,LengthUnit.YARDS),new Length(3.0,LengthUnit.FEET)));
+		
+		//Add Inches and Yards
+		System.out.println("36.0 INCHES + 1.0 YARDS = "+demonstrateLengthAddition(new Length(36.0,LengthUnit.INCHES),new Length(1.0,LengthUnit.YARDS)));
+	
+		//Add Centimeters and Inches
+		System.out.println("2.54 CENTIMETERS + 1.0 INCHES = "+demonstrateLengthAddition(new Length(2.54,LengthUnit.CENTIMETERS),new Length(1.0,LengthUnit.INCHES)));
+	
+		//Add Feet and inches
+		System.out.println("5.0 FEET + 0.0 INCHES = "+demonstrateLengthAddition(new Length(5.0,LengthUnit.FEET),new Length(0.0,LengthUnit.INCHES)));
+	
+		//Add feet and feet
+		System.out.println("5.0 FEET + -2 FEET = "+demonstrateLengthAddition(new Length(5.0,LengthUnit.FEET),new Length(-2.0,LengthUnit.FEET)));
+			
+	
 	}
 
 	
