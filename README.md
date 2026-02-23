@@ -20,19 +20,18 @@ This project was implemented incrementally using:
 
 ## 📅 20 Feb 2026
 
-### 🔹 UC5 – Unit-to-Unit Conversion
+### 🔹 UC6 – Addition of Two Length Units
 
-**Branch:** `feature/UC5-UnitConversion`
+**Branch:** `feature/UC6-UnitAddition`
 
 ### 🎯 Objective
 
-- Convert one unit into another
+- Add two quantities correctly
 
 ### ✅ Implementation
 
-- Implemented `convertTo()` method
-- Centralized conversion logic
-- Ensured precision-safe calculations  
-  -- [feature/UC4-UnitConversion](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC4-UnitConversion/src)
+- Converted to base unit before addition
+- Accurate arithmetic operations
+- Clean and reusable method structure
 
 ---
