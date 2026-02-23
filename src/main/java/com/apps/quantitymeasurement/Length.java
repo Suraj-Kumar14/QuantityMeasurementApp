@@ -89,11 +89,30 @@ public class Length {
 		double result = convertFromBaseToTargetUnit(lengthInInches,this.unit);
 		return new Length(result,unit);
 	}
+	
+	public Length add(Length length, LengthUnit targetUnit) {
+		Length l1 = addAndConvert(this,targetUnit);
+		Length l2 = addAndConvert(length,targetUnit);
+		return l1.add(l2);
+	}
 
+	private Length addAndConvert(Length length, LengthUnit targetUnit) {
+		  return length.convertTo(targetUnit);
+		
+	}
+	
 	private double convertFromBaseToTargetUnit(double lengthInInches, LengthUnit targetUnit) {
 		return lengthInInches/targetUnit.getConversionFactor();
 	}
 	
+	public double getValue() {
+		return value;
+	}
+
+	public LengthUnit getUnit() {
+		return unit;
+	}
+
 	@Override
 	public String toString() {
 		return value + " " + unit ;
@@ -101,16 +120,22 @@ public class Length {
 	
 	// Main method for standalone testing
 	public static void main(String[] args) {
-		Length len1 = new Length(1,Length.LengthUnit.FEET);
-		Length len2 = new Length(12,Length.LengthUnit.INCHES);
-		System.out.println("Are lengths equals? " + len1.equals(len2)); // Should print true;
+//		Length len1 = new Length(1,Length.LengthUnit.FEET);
+//		Length len2 = new Length(12,Length.LengthUnit.INCHES);
+//		System.out.println("Are lengths equals? " + len1.equals(len2)); // Should print true;
+//		
+//		Length len3 = new Length(1.0,Length.LengthUnit.YARDS);
+//		Length len4 = new Length(36.0,Length.LengthUnit.INCHES);
+//		System.out.println("Are lengths equals? " +len3.equals(len4));
+//		
+//		Length len5 = new Length(100.0,Length.LengthUnit.CENTIMETERS);
+//		Length len6 = new Length(39.37,Length.LengthUnit.INCHES);
+//		System.out.println("Are lengths equals? " +len5.equals(len6));
+//		
 		
-		Length len3 = new Length(1.0,Length.LengthUnit.YARDS);
-		Length len4 = new Length(36.0,Length.LengthUnit.INCHES);
-		System.out.println("Are lengths equals? " +len3.equals(len4));
+		Length len1 = new Length(12,Length.LengthUnit.INCHES);
+		Length len2 = new Length(36,Length.LengthUnit.INCHES);
 		
-		Length len5 = new Length(100.0,Length.LengthUnit.CENTIMETERS);
-		Length len6 = new Length(39.37,Length.LengthUnit.INCHES);
-		System.out.println("Are lengths equals? " +len5.equals(len6));
+		System.out.println(len1.add(len2, LengthUnit.FEET));
 	}
 }
