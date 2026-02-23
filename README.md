@@ -20,18 +20,19 @@ This project was implemented incrementally using:
 
 ## 📅 20 Feb 2026
 
-### 🔹 UC6 – Addition of Two Length Units
+### 🔹 UC7 – Addition with Target Unit Specification
 
-**Branch:** `feature/UC6-UnitAddition`
+**Branch:** `feature/UC7-TargetUnitAddition`
 
 ### 🎯 Objective
 
-- Add two quantities correctly
+- Add two quantities
+- Return result in specified target unit
 
 ### ✅ Implementation
 
-- Converted to base unit before addition
-- Accurate arithmetic operations
-- Clean and reusable method structure
+- Implemented `add(quantity, targetUnit)`
+- Converted result before returning
+- Maintained precision and scalability
 
 ---
