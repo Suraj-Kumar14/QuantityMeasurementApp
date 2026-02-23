@@ -35,6 +35,9 @@ public class Length {
 		if(unit==null) {
 			throw new IllegalArgumentException("Unit cannot be null");
 		}
+		if(Double.isNaN(value)) {
+			throw new IllegalArgumentException("Unit cannot be null");			
+		}
 		this.value=value;
 		this.unit=unit;
 	}
@@ -76,23 +79,24 @@ public class Length {
 		return Objects.hash(convertToBaseUnit());
 	}
 	
-	@Override
-	public String toString() {
-		return "Length [value=" + value + ", unit=" + unit + "]";
+	public Length convertTo(LengthUnit targetUnit) {
+	    double result = this.value * this.unit.getConversionFactor()/ targetUnit.getConversionFactor();
+	    return new Length(result, targetUnit);
 	}
 	
-	public Length convertTo(LengthUnit targetUnit) {
+	public Length add(Length thatLength) {
+		double lengthInInches = this.convertToBaseUnit() + thatLength.convertToBaseUnit();
+		double result = convertFromBaseToTargetUnit(lengthInInches,this.unit);
+		return new Length(result,unit);
+	}
 
-	    if (targetUnit == null)
-	        throw new IllegalArgumentException("Unit cannot be null");
-
-	    // Step 1: Convert current value to base unit
-	    double baseValue = this.value * this.unit.getConversionFactor();
-
-	    // Step 2: Convert base to target
-	    double convertedValue = baseValue / targetUnit.getConversionFactor();
-
-	    return new Length(convertedValue, targetUnit);
+	private double convertFromBaseToTargetUnit(double lengthInInches, LengthUnit targetUnit) {
+		return lengthInInches/targetUnit.getConversionFactor();
+	}
+	
+	@Override
+	public String toString() {
+		return value + " " + unit ;
 	}
 	
 	// Main method for standalone testing
