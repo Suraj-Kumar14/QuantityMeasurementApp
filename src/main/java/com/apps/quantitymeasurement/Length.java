@@ -1,42 +1,19 @@
 package com.apps.quantitymeasurement;
 
-import java.util.Objects;
-
 public class Length {
 	
 	//Instance variables
 	private double value;
 	private LengthUnit unit;
 	private static final double EPSILON = 0.01;
-
-	
-	// Enum to represent different length units and their conversion factors
-	// with the base unit being inches. This means all the conversion factors
-	// are defined in terms of inches.
-	public enum LengthUnit {
-		FEET( 12.0),
-		INCHES( 1.0),
-		YARDS(36.0),
-		CENTIMETERS(0.393701);
-	
-		private final double conversionFactor;
-	
-		LengthUnit(double conversionFactor) {
-		this. conversionFactor = conversionFactor;
-		}
-	
-		public double getConversionFactor() {
-			return conversionFactor;
-		}	
-	}
 	
 	// Constructor to initialize length value and unit
 	public Length(double value, LengthUnit unit) {
 		if(unit==null) {
 			throw new IllegalArgumentException("Unit cannot be null");
 		}
-		if(Double.isNaN(value)) {
-			throw new IllegalArgumentException("Unit cannot be null");			
+		if(Double.isNaN(value) || Double.isInfinite(value)) {
+			throw new IllegalArgumentException("Invalid value");			
 		}
 		this.value=value;
 		this.unit=unit;
@@ -73,14 +50,9 @@ public class Length {
 		
 		return this.compare((Length)o);
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(convertToBaseUnit());
-	}
 	
 	public Length convertTo(LengthUnit targetUnit) {
-	    double result = this.value * this.unit.getConversionFactor()/ targetUnit.getConversionFactor();
+	    double result = value * unit.getConversionFactor()/ targetUnit.getConversionFactor();
 	    return new Length(result, targetUnit);
 	}
 	
@@ -120,22 +92,33 @@ public class Length {
 	
 	// Main method for standalone testing
 	public static void main(String[] args) {
-//		Length len1 = new Length(1,Length.LengthUnit.FEET);
-//		Length len2 = new Length(12,Length.LengthUnit.INCHES);
-//		System.out.println("Are lengths equals? " + len1.equals(len2)); // Should print true;
-//		
-//		Length len3 = new Length(1.0,Length.LengthUnit.YARDS);
-//		Length len4 = new Length(36.0,Length.LengthUnit.INCHES);
-//		System.out.println("Are lengths equals? " +len3.equals(len4));
-//		
-//		Length len5 = new Length(100.0,Length.LengthUnit.CENTIMETERS);
-//		Length len6 = new Length(39.37,Length.LengthUnit.INCHES);
-//		System.out.println("Are lengths equals? " +len5.equals(len6));
-//		
+/*		
+        Length len1 = new Length(1,Length.LengthUnit.FEET);
+		Length len2 = new Length(12,Length.LengthUnit.INCHES);
+		System.out.println("Are lengths equals? " + len1.equals(len2)); // Should print true;
 		
-		Length len1 = new Length(12,Length.LengthUnit.INCHES);
-		Length len2 = new Length(36,Length.LengthUnit.INCHES);
+		Length len3 = new Length(1.0,Length.LengthUnit.YARDS);
+		Length len4 = new Length(36.0,Length.LengthUnit.INCHES);
+		System.out.println("Are lengths equals? " +len3.equals(len4));
 		
-		System.out.println(len1.add(len2, LengthUnit.FEET));
+		Length len5 = new Length(100.0,Length.LengthUnit.CENTIMETERS);
+		Length len6 = new Length(39.37,Length.LengthUnit.INCHES);
+		System.out.println("Are lengths equals? " +len5.equals(len6));
+		
+*/		
+		Length len1 = new Length(1.0,LengthUnit.FEET);
+		Length len2 = new Length(1.0,LengthUnit.YARDS);
+		
+//		System.out.println("Convert 1 FEET to INCHES = "+len1.convertTo(LengthUnit.INCHES));
+//		System.out.println("Add 1 FEET and 12 INCHES = "+len1.add(new Length(12.0,LengthUnit.INCHES)));
+//
+//		System.out.println("Check 36.0 INCHES equals 1.0 YARDS = "+new Length(36.0,LengthUnit.INCHES).equals(len2));
+//		System.out.println("Add 1.0 YARDS and 3.0 FEET = "+len2.add(new Length(3.0,LengthUnit.FEET),LengthUnit.YARDS));
+//		
+//		System.out.println("Convert 2.54 CENTIMETERS into INCHES = "+new Length(2.54,LengthUnit.CENTIMETERS).convertTo(LengthUnit.INCHES));
+//		System.out.println("Add 5.0 FEET and 0.0 INCHES ouput in FEET = "+new Length(5.0,LengthUnit.FEET).add(new Length(0.0,LengthUnit.INCHES),LengthUnit.FEET));
+//	
+//		System.out.println("LengthUnit.FEET.convertToBaseUnit(12.0) = "+LengthUnit.FEET.convertToBaseUnit(12));
+//		System.out.println("LengthUnit.INCHES.convertToBaseUnit(12.0) = "+LengthUnit.INCHES.convertFromBaseUnit(12.0));
 	}
 }
