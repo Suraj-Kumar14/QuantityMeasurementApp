@@ -130,14 +130,21 @@ public class QuantityMeasurementApp {
 		 }
 		return (len1.add(len2));
 	 }
+	 
+	 public static Length demonstrateLengthAddition(Length l1,Length l2, LengthUnit unit) {
+		 if(l1==null || l2==null || unit==null) {
+			 throw new IllegalArgumentException("Unit cannot be null");
+		 }
+		 return (l1.add(l2,unit));
+	 }
 		
 	//main method to demonstrate Inches equality check
 	public static void main(String[] args) throws InvalidUnitMeasurementException {
-		demonstrateFeetEquality();
-		demonstrateInchesEquality();
-		
-		demonstrateFeetInchComparison();
-		
+//		demonstrateFeetEquality();
+//		demonstrateInchesEquality();
+//		
+//		demonstrateFeetInchComparison();
+	/*	
 		//Domonstrate Feet to Inches
 		System.out.println(demonstrateLengthEquality(new Length(1,Length.LengthUnit.FEET), new Length(12,Length.LengthUnit.INCHES)));
 				
@@ -168,8 +175,8 @@ public class QuantityMeasurementApp {
 			
 		 // convert(0.0, FEET, INCHES) → Output: 0.0
 			System.out.println("Convert Feet to Inches: "+(demonstrateLengthConversion(0.0, Length.LengthUnit.FEET, Length.LengthUnit.INCHES)));
-
-			
+	*/
+	/*		
 		//Add two feet  
 		System.out.println("1.0 FEET + 2.0 FEET = "+demonstrateLengthAddition(new Length(1.0,LengthUnit.FEET),new Length(2.0,LengthUnit.FEET)));
 	
@@ -193,9 +200,24 @@ public class QuantityMeasurementApp {
 	
 		//Add feet and feet
 		System.out.println("5.0 FEET + -2 FEET = "+demonstrateLengthAddition(new Length(5.0,LengthUnit.FEET),new Length(-2.0,LengthUnit.FEET)));
-			
+		*/
+		
+		//Add to unit in given targetUnit
+		System.out.println("1.0 FEET + 12.0 INCHES = "+demonstrateLengthAddition(new Length(1.0,LengthUnit.FEET),new Length(12.0,LengthUnit.INCHES),LengthUnit.FEET));
+		
+		System.out.println("1.0 FEET + 12.0 INCHES = "+demonstrateLengthAddition(new Length(1.0,LengthUnit.FEET),new Length(12.0,LengthUnit.INCHES),LengthUnit.INCHES));
 	
+		System.out.println("1.0 FEET + 12.0 INCHES = "+demonstrateLengthAddition(new Length(1.0,LengthUnit.FEET),new Length(12.0,LengthUnit.INCHES),LengthUnit.YARDS));
+	
+		System.out.println("1.0 YARDS + 3.0 FEET = "+demonstrateLengthAddition(new Length(1.0,LengthUnit.YARDS),new Length(3.0,LengthUnit.FEET),LengthUnit.YARDS));
+		
+		System.out.println("36.0 INCHES + 1.0 YARDS = "+demonstrateLengthAddition(new Length(36.0,LengthUnit.INCHES),new Length(1.0,LengthUnit.YARDS),LengthUnit.FEET));
+	
+		System.out.println("2.54 CENTIMETERS + 1.0 INCHES = "+demonstrateLengthAddition(new Length(2.54,LengthUnit.CENTIMETERS),new Length(1.0,LengthUnit.INCHES),LengthUnit.CENTIMETERS));
+		
+		System.out.println("5.0 FEET + 0.0 INCHES = "+demonstrateLengthAddition(new Length(5.0,LengthUnit.FEET),new Length(0.0,LengthUnit.INCHES),LengthUnit.YARDS));
+	
+		System.out.println("5.0 FEET + (-2.0) FEET = "+demonstrateLengthAddition(new Length(5.0,LengthUnit.FEET),new Length(-2.0,LengthUnit.FEET),LengthUnit.INCHES));
 	}
-
 	
 }
