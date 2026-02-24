@@ -22,7 +22,7 @@ public enum WeightUnit implements IMeasurable{
 	}
 	
 	public double convertToBaseUnit(double value) {
-		return value*this.getConversionFactor();
+		return (value*getConversionFactor())*100.0/100.0;
 	}
 	
 	public double convertFromBaseUnit(double baseValue) {
