@@ -1,6 +1,6 @@
 package com.apps.quantitymeasurement;
 
-public enum WeightUnit {
+public enum WeightUnit implements IMeasurable{
 
 	//Conversion factor to the base unit (grams)
 	MILLIGRAM(0.001),
@@ -27,6 +27,10 @@ public enum WeightUnit {
 	
 	public double convertFromBaseUnit(double baseValue) {
 		return (baseValue/this.getConversionFactor()*100.0)/100.0;
+	}
+	
+	public String getUnitName() {
+		return this.name();
 	}
 	
 }
