@@ -136,6 +136,12 @@ public class QuantityMeasurementApp {
 		 return (l1.add(l2,unit));
 	 }
 		
+	 public static Weight demonstrateLengthAddition(Weight w1,Weight w2, WeightUnit unit) {
+		 if(w1==null || w2==null || unit==null) {
+			 throw new IllegalArgumentException("Unit cannot be null");
+		 }
+		 return (w1.add(w2,unit));
+	 }
 	//main method to demonstrate Inches equality check
 	public static void main(String[] args) throws InvalidUnitMeasurementException {
 //		demonstrateFeetEquality();
