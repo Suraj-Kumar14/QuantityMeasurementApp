@@ -18,11 +18,11 @@ public enum LengthUnit implements IMeasurable{
 	}	
 	
 	public double convertToBaseUnit(double value) {
-		return value*getConversionFactor();
+		return (value*getConversionFactor())*100.0/100.0;
 	}
 	
 	public double convertFromBaseUnit(double baseValue) {
-		return baseValue/getConversionFactor();
+		return (baseValue/getConversionFactor())*100.0/100.0;
 	}
 
 	
