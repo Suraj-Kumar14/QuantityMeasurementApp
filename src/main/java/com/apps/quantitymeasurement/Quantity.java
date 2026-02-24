@@ -52,26 +52,21 @@ public class Quantity<U extends IMeasurable> {
 	//equals
 	@Override
 	public boolean equals(Object obj) {
-		if(this==obj) {
-			return true;
-		}
-		
-		if(obj==null || this.getClass()!=obj.getClass()) {
-			return false;
-		}
-		
-		//Generic cast		
-		@SuppressWarnings("unchecked")
-		Quantity<U>other=(Quantity<U>)obj;
-		
-		// Conversion Logic: Convert both to their Base Unit for comparison
-		double baseValue1=this.unit.convertToBaseUnit(this.value);
-		double baseValue2=other.unit.convertToBaseUnit(other.value);
-		
-		// Value comparison with a small delta for double precision errors
-		return Math.abs(baseValue1-baseValue2)<0.0001;
-	}
-	
+	    if (this == obj) return true;
+	    if (!(obj instanceof Quantity<?>)) return false;
+
+	    Quantity<?> other = (Quantity<?>) obj;
+
+	    // 🔥 CRITICAL FIX: ensure same unit type (dimension)
+	    if (!this.unit.getClass().equals(other.unit.getClass())) {
+	        return false;
+	    }
+
+	    double baseValue1 = this.unit.convertToBaseUnit(this.value);
+	    double baseValue2 = other.unit.convertToBaseUnit(other.value);
+
+	    return Math.abs(baseValue1 - baseValue2) < 0.0001;
+	}	
 	
 	
 	@Override
@@ -101,5 +96,18 @@ public class Quantity<U extends IMeasurable> {
 		Quantity<WeightUnit> totalWeight = weightInKilograms.add(weightInPounds,WeightUnit.KILOGRAM);
 		
 		System.out.println("Total Weight in Kilograms: "+ totalWeight.getValue()+" "+totalWeight.getUnit());
+	
+	
+		Quantity<VolumeUnit>v1=new Quantity<>(1.0,VolumeUnit.LITRE);
+		Quantity<VolumeUnit>v2=new Quantity<>(1000.0,VolumeUnit.MILLILITRE);
+		Quantity<VolumeUnit>v3=new Quantity<>(1.0,VolumeUnit.GALLON);
+	
+		System.out.println(v1.equals(v2));
+		System.out.println(v1.equals(v3));
+		System.out.println(v3.equals(v1));
+		
+		System.out.println(v1.convertTo(VolumeUnit.MILLILITRE));
+		System.out.println(v3.convertTo(VolumeUnit.LITRE));
+		System.out.println(v2.convertTo(VolumeUnit.GALLON));
 	}
 }
