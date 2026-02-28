@@ -57,7 +57,7 @@ public class Quantity<U extends IMeasurable> {
 
 	    Quantity<?> other = (Quantity<?>) obj;
 
-	    // 🔥 CRITICAL FIX: ensure same unit type (dimension)
+	    
 	    if (!this.unit.getClass().equals(other.unit.getClass())) {
 	        return false;
 	    }
@@ -68,6 +68,38 @@ public class Quantity<U extends IMeasurable> {
 	    return Math.abs(baseValue1 - baseValue2) < 0.0001;
 	}	
 	
+	public Quantity<U> subtract(Quantity<U> other){
+		if(other==null ) {
+			throw new IllegalArgumentException("Invalid input!");
+		}
+		double sub1= this.convertTo(unit);
+		double sub2 = other.convertTo(unit);
+		return new Quantity<>((sub1-sub2),unit);
+	}
+	     
+	public Quantity<U> subtract(Quantity<U> other, U targetUnit){
+		if(other==null || targetUnit==null) {
+			throw new IllegalArgumentException("Invalid input!");
+		}
+		double sub1 = this.convertTo(targetUnit);
+		double sub2 = other.convertTo(targetUnit);
+		return new Quantity<>((sub1-sub2),targetUnit);
+	} 
+	
+	public double divide(Quantity<U>other) {
+		if(other==null ) {
+			throw new IllegalArgumentException("Invalid input!");
+		}
+		
+		double baseValue1 = this.unit.convertToBaseUnit(this.value);
+	    double baseValue2 = other.unit.convertToBaseUnit(other.value);
+	    
+	    if (Math.abs(baseValue2) < 1e-10) {
+	        throw new ArithmeticException("Division by zero");
+	    }
+	    
+	    return baseValue1 / baseValue2;
+	}
 	
 	@Override
 	public String toString() {
