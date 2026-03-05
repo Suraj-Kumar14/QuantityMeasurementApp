@@ -7,8 +7,8 @@ public class Quantity<U extends IMeasurable> {
 	private U unit;
 	
 	public Quantity(double value, U unit) {
-		if (Double.isNaN(value) || Double.isInfinite(value)) {
-		    throw new IllegalArgumentException("Value must be finite");
+		if(Double.isNaN(value) || Double.isInfinite(value)) {
+			throw new IllegalArgumentException("Nan value!");
 		}
 		if(unit==null) {
 			throw new IllegalArgumentException("Nan value!");			
@@ -62,6 +62,7 @@ public class Quantity<U extends IMeasurable> {
 		this.validateArithmeticOperands(other, targetUnit, true);
 		double baseResult = performBaseArithmetic(other, ArithmeticOperation.SUBTRACT);
 	    double finalResult = targetUnit.convertFromBaseUnit(baseResult);
+	    System.out.println(finalResult);
 		return new Quantity<>(finalResult,targetUnit);
 	}
 	
@@ -81,23 +82,28 @@ public class Quantity<U extends IMeasurable> {
 	//equals
 	@Override
 	public boolean equals(Object obj) {
-	    if (this == obj) return true;
-
-	    if (obj == null || obj.getClass() != this.getClass()) {
-	        return false;
-	    }
-
+		if(this==obj) {
+			return true;
+		}
+		
+		if(obj==null || obj.getClass()!=this.getClass()) {
+			return false;
+		}
+		
+		// Generic cast (Suppressed warning because we checked getClass() above)
 	    @SuppressWarnings("unchecked")
-	    Quantity<?> other = (Quantity<?>) obj;
+	    Quantity<U> other = (Quantity<U>) obj;
 
-	    
-	    if (!this.unit.getClass().equals(other.unit.getClass())) {
+	    // Check unit category compatibility
+	    if (this.unit.getClass() != other.unit.getClass()) {
 	        return false;
 	    }
-
+	    
+	    // Conversion Logic: Convert both to their Base Unit for comparison
 	    double baseValue1 = this.unit.convertToBaseUnit(this.value);
 	    double baseValue2 = other.unit.convertToBaseUnit(other.value);
 
+	    // Value comparison with a small delta for double precision errors
 	    return Math.abs(baseValue1 - baseValue2) < 0.0001;
 	}
 	
