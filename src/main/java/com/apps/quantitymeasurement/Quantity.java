@@ -7,7 +7,7 @@ public class Quantity<U extends IMeasurable> {
 	private U unit;
 	
 	public Quantity(double value, U unit) {
-		if(Double.isNaN(value) || Double.isInfinite(value)) {
+		if(Double.isNaN(value)) {
 			throw new IllegalArgumentException("Nan value!");
 		}
 		if(unit==null) {
@@ -36,6 +36,9 @@ public class Quantity<U extends IMeasurable> {
 	
 	//add
 	public Quantity<U> add(Quantity<U> other){
+		if(other.unit.getClass()!=this.unit.getClass()) {
+			throw new IllegalArgumentException("Can't possible substract between another units!");
+		}
 		this.validateArithmeticOperands(other, null, false);
 		double baseResult = performBaseArithmetic(other, ArithmeticOperation.ADD);
 	    double finalResult = this.unit.convertFromBaseUnit(baseResult);
@@ -43,6 +46,9 @@ public class Quantity<U extends IMeasurable> {
 	}
 	//add with target unit
 	public Quantity<U> add(Quantity<U> other, U targetUnit){
+		if(other.unit.getClass()!=this.unit.getClass()) {
+			throw new IllegalArgumentException("Can't possible substract between another units!");
+		}
 		this.validateArithmeticOperands(other, targetUnit, true);
 		double baseResult = performBaseArithmetic(other, ArithmeticOperation.ADD);
 	    double finalResult = targetUnit.convertFromBaseUnit(baseResult);
@@ -52,6 +58,10 @@ public class Quantity<U extends IMeasurable> {
 	//subtract method
 	public Quantity<U> subtract(Quantity<U> other){
 		this.validateArithmeticOperands(other, null, false);
+		if(other.unit.getClass()!=this.unit.getClass()) {
+			throw new IllegalArgumentException("Can't possible substract between another units!");
+		}
+		
 		double baseResult = performBaseArithmetic(other, ArithmeticOperation.SUBTRACT);
 	    double finalResult = this.unit.convertFromBaseUnit(baseResult);
 		return new Quantity<>(finalResult,this.unit);
@@ -59,6 +69,9 @@ public class Quantity<U extends IMeasurable> {
 	
 	//subtract method for specific unit
 	public Quantity<U> subtract(Quantity<U> other, U targetUnit){
+		if(other.unit.getClass()!=this.unit.getClass()) {
+			throw new IllegalArgumentException("Can't possible substract between another units!");
+		}
 		this.validateArithmeticOperands(other, targetUnit, true);
 		double baseResult = performBaseArithmetic(other, ArithmeticOperation.SUBTRACT);
 	    double finalResult = targetUnit.convertFromBaseUnit(baseResult);
@@ -68,11 +81,17 @@ public class Quantity<U extends IMeasurable> {
 	
 	//division
 	public double divide(Quantity<U> other){
+		if(other.unit.getClass()!=this.unit.getClass()) {
+			throw new IllegalArgumentException("Can't possible substract between another units!");
+		}
 		this.validateArithmeticOperands(other, null, false);
 		return performBaseArithmetic(other, ArithmeticOperation.DIVIDE);
 	}
 	
 	public double divide(Quantity<U> other, U targetUnit){
+		if(other.unit.getClass()!=this.unit.getClass()) {
+			throw new IllegalArgumentException("Can't possible substract between another units!");
+		}
 		this.validateArithmeticOperands(other, targetUnit, true);
 		double baseResult = performBaseArithmetic(other, ArithmeticOperation.DIVIDE);
 	    double finalResult = targetUnit.convertFromBaseUnit(baseResult);
@@ -90,15 +109,14 @@ public class Quantity<U extends IMeasurable> {
 			return false;
 		}
 		
+		
 		// Generic cast (Suppressed warning because we checked getClass() above)
 	    @SuppressWarnings("unchecked")
 	    Quantity<U> other = (Quantity<U>) obj;
-
-	    // Check unit category compatibility
-	    if (this.unit.getClass() != other.unit.getClass()) {
-	        return false;
+	    if(this.unit.getClass()!=other.unit.getClass()) {
+	    	return false;
 	    }
-	    
+
 	    // Conversion Logic: Convert both to their Base Unit for comparison
 	    double baseValue1 = this.unit.convertToBaseUnit(this.value);
 	    double baseValue2 = other.unit.convertToBaseUnit(other.value);
@@ -126,6 +144,10 @@ public class Quantity<U extends IMeasurable> {
 	}
 	
 	private double performBaseArithmetic(Quantity<U> other,  ArithmeticOperation operation) {
+		 // validate support for operation
+	    this.unit.validateOperationSupport(operation.name());
+	    other.unit.validateOperationSupport(operation.name());
+	    
 		double base1 = this.unit.convertToBaseUnit(this.value);
 		double base2 = other.unit.convertToBaseUnit(other.value);
     	return operation.compute(base1, base2);
