@@ -11,7 +11,7 @@ public enum WeightUnit implements IMeasurable{
 	
 	//Conversion factor to the base unit (grams)
 	private final double conversionFactor;
-	
+
 	//Constructor to initialize the conversion factor
 	WeightUnit(double conversionFactor){
 		this.conversionFactor=conversionFactor;
