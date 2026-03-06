@@ -245,7 +245,7 @@ main
   - Type-safe unit handling
   - Category-safe operations
   - Scalable architecture
-- [feature/UC10-GenericQuantity]()
+- [feature/UC10-GenericQuantity](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC10-GenericQuantity/src)
 
 ---
 
@@ -276,7 +276,7 @@ System now supports:
 - Length
 - Weight
 - Volume
-- [feature/UC11-VolumeMeasurement]()
+- [feature/UC11-VolumeMeasurement](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC11-VolumeMeasurement/src)
 
 ---
 
@@ -308,7 +308,7 @@ All arithmetic operations follow:
 2. Perform operation
 3. Convert to target unit
 
-- [feature/UC12-SubtractionAndDivision]()
+- [feature/UC12-SubtractionAndDivision](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC12-SubtractionAndDivision/src)
 
 ---
 
@@ -336,7 +336,7 @@ All arithmetic operations follow:
 - Cleaner architecture
 - Easier future feature additions
 - Reduced error-prone code blocks
-- [feature/UC13-CentralizedArithmeticLogic]()
+- [feature/UC13-CentralizedArithmeticLogic](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC13-CentralizedArithmeticLogic/src)
 
 ---
 
@@ -373,6 +373,6 @@ Conversion requires formula-based transformation:
 - Introduced selective arithmetic capability
 - Improved domain modeling
 - Applied behavior-driven restrictions
-- [feature/UC14-TemperatureMeasurementwithSelectiveArithmetic]()
+- [feature/UC14-TemperatureMeasurementwithSelectiveArithmetic](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC14-TemperatureMeasurementwithSelectiveArithmetic/src)
 
 ---
