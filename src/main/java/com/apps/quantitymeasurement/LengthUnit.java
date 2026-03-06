@@ -8,7 +8,7 @@ public enum LengthUnit implements IMeasurable{
 	CENTIMETERS(1.0/30.48);
 
 	private final double conversionFactor;
-
+	
 	LengthUnit(double conversionFactor) {
 	this. conversionFactor = conversionFactor;
 	}
