@@ -7,7 +7,7 @@ public enum VolumeUnit implements IMeasurable{
 	GALLON(3.78541);
 	
 	private final double conversionFactor;
-	
+
 	VolumeUnit(double conversionFactor){
 		this.conversionFactor=conversionFactor;
 	}
