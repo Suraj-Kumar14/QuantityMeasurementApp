@@ -1,16 +1,27 @@
 
-package com.apps.quantitymeasurement;
+package com.app.quantitymeasurement;
 
-import com.apps.quantitymeasurement.controller.QuantityMeasurementController;
-import com.apps.quantitymeasurement.entity.QuantityDTO;
-import com.apps.quantitymeasurement.quantity.Quantity;
-import com.apps.quantitymeasurement.repository.IQuantityMeasurementRepository;
-import com.apps.quantitymeasurement.repository.QuantityMeasurementCacheRepository;
-import com.apps.quantitymeasurement.service.QuantityMeasurementServiceImpl;
-import com.apps.quantitymeasurement.unit.*;
+import com.app.quantitymeasurement.controller.QuantityMeasurementController;
+import com.app.quantitymeasurement.entity.QuantityDTO;
+import com.app.quantitymeasurement.quantity.Quantity;
+import com.app.quantitymeasurement.repository.IQuantityMeasurementRepository;
+import com.app.quantitymeasurement.repository.QuantityMeasurementCacheRepository;
+import com.app.quantitymeasurement.service.QuantityMeasurementServiceImpl;
+import com.app.quantitymeasurement.unit.*;
+import java.util.logging.Logger;
 
 public class QuantityMeasurementApp {
 
+	private static final Logger logger = Logger.getLogger(QuantityMeasurementApp.class.getName());
+	
+	private QuantityMeasurementApp () {
+		this.repository = QuantityMeasurementCacheRepository.getInstance();
+		QuantityMeasurementServiceImpl service = new QuantityMeasurementServiceImpl(this.repository);
+		
+		this.controller = new QuantityMeasurementController(service);
+		logger.info("Quantity Measurement Application initialized with "+ "Cache Repository");
+		
+	}
 	
 	public static <U extends IMeasurable> boolean demonstrateEquality(Quantity<U> quantity1, Quantity<U> quantity2) {
 		if(quantity1==null || quantity2==null || quantity1.getUnit().getClass()!=quantity2.getUnit().getClass()) {
@@ -83,11 +94,13 @@ public class QuantityMeasurementApp {
 
 	public IQuantityMeasurementRepository repository;
 
-	private QuantityMeasurementApp() {
-		this.repository = QuantityMeasurementCacheRepository.getInstance();
-		QuantityMeasurementServiceImpl service = new QuantityMeasurementServiceImpl(this.repository);
-		this.controller = new QuantityMeasurementController(service);
-	}
+	/*
+	 * private QuantityMeasurementApp() { this.repository =
+	 * QuantityMeasurementCacheRepository.getInstance();
+	 * QuantityMeasurementServiceImpl service = new
+	 * QuantityMeasurementServiceImpl(this.repository); this.controller = new
+	 * QuantityMeasurementController(service); }
+	 */
 	
 	public static QuantityMeasurementApp getInstance() {
 		if (instance == null) {
@@ -139,10 +152,16 @@ public class QuantityMeasurementApp {
 //	        System.out.println("Division of inche with feet : "+demonstrateDivision(new Quantity<LengthUnit>(24.0,LengthUnit.INCHES),new Quantity<LengthUnit>(2.0,LengthUnit.FEET)));
 	
     public static void main(String[] args) {
-        QuantityMeasurementApp app = QuantityMeasurementApp.getInstance();
+       
+    	QuantityMeasurementController controller = getInstance().controller;
 
-        QuantityDTO threeFeet = new QuantityDTO(3, "FEET", "LENGTH");
-        QuantityDTO thirtySixInches = new QuantityDTO(36, "INCHES", "LENGTH");
+        QuantityDTO quantity1 = new QuantityDTO(2, QuantityDTO.LengthUnit.FEET.getUnitName(),QuantityDTO.LengthUnit.FEET.getMeasurementType());
+        
+        QuantityDTO quantity2 = new QuantityDTO(24, QuantityDTO.LengthUnit.INCHES.getUnitName(), QuantityDTO.LengthUnit.INCHES.getMeasurementType());
+        
+        boolean comparisonResult = controller.performComparison(quantity1, quantity2);
+        logger.info("Comparison result: "+comparisonResult);
+        
         QuantityDTO twoYards = new QuantityDTO(2, "YARDS", "LENGTH");
         QuantityDTO targetInches = new QuantityDTO(0, "INCHES", "LENGTH");
 
@@ -156,28 +175,28 @@ public class QuantityMeasurementApp {
         System.out.println("===== UC15 Quantity Measurement Application =====");
 
         System.out.println("\n1. Comparison");
-        System.out.println(app.controller.performComparison(threeFeet, thirtySixInches));
+        System.out.println(controller.performComparison(quantity1, quantity2));
 
         System.out.println("\n2. Conversion");
-        System.out.println(app.controller.performConversion(threeFeet, thirtySixInches));
+        System.out.println(controller.performConversion(quantity1, quantity2));
 
         System.out.println("\n3. Addition with same unit as first quantity");
-        System.out.println(app.controller.performAddition(oneLitre, thousandMilliLitres));
+        System.out.println(controller.performAddition(oneLitre, thousandMilliLitres));
 
         System.out.println("\n4. Addition with target unit");
-        System.out.println(app.controller.performAddition(oneLitre, thousandMilliLitres, targetLitre));
+        System.out.println(controller.performAddition(oneLitre, thousandMilliLitres, targetLitre));
 
         System.out.println("\n5. Subtraction with same unit as first quantity");
-        System.out.println(app.controller.performSubtraction(twoYards, threeFeet));
+        System.out.println(controller.performSubtraction(twoYards, quantity1));
 
         System.out.println("\n6. Subtraction with target unit");
-        System.out.println(app.controller.performSubtraction(twoYards, threeFeet, targetInches));
+        System.out.println(controller.performSubtraction(twoYards, quantity1, targetInches));
 
         System.out.println("\n7. Division");
-        System.out.println(app.controller.performDivision(thirtySixInches, threeFeet));
+        System.out.println(controller.performDivision(quantity2, quantity1));
 
         System.out.println("\n8. Temperature conversion");
-        System.out.println(app.controller.performConversion(hundredCelsius, twoTwelveFahrenheit));
+        System.out.println(controller.performConversion(hundredCelsius, twoTwelveFahrenheit));
 
         System.out.println("\n9. Repository history printed if your repository supports it.");
     }
