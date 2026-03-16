@@ -1,9 +1,9 @@
 
-package com.apps.quantitymeasurement.quantity;
+package com.app.quantitymeasurement.quantity;
 
 import java.util.function.DoubleBinaryOperator;
 
-import com.apps.quantitymeasurement.unit.IMeasurable;
+import com.app.quantitymeasurement.unit.IMeasurable;
 
 public class Quantity<U extends IMeasurable> {
 	private double value;
