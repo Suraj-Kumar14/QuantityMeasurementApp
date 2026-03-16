@@ -1,5 +1,5 @@
 
-package com.apps.quantitymeasurement;
+package com.app.quantitymeasurement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,8 +15,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import com.apps.quantitymeasurement.quantity.Quantity;
-import com.apps.quantitymeasurement.unit.*;
+import com.app.quantitymeasurement.QuantityMeasurementApp;
+import com.app.quantitymeasurement.quantity.Quantity;
+import com.app.quantitymeasurement.unit.*;
 
 public class QuantityMeasurementMainTest {
 	
