@@ -37,16 +37,16 @@ public class Quantity<U extends IMeasurable> {
 		
 	}
 	
-	//add
-	public Quantity<U> add(Quantity<U> other){
-		if(other.unit.getClass()!=this.unit.getClass()) {
-			throw new IllegalArgumentException("Can't possible substract between another units!");
-		}
-		this.validateArithmeticOperands(other, null, false);
-		double baseResult = performBaseArithmetic(other, ArithmeticOperation.ADD);
-	    double finalResult = this.unit.convertFromBaseUnit(baseResult);
-		return new Quantity<>(finalResult,this.unit);
-	}
+	/*
+	 * //add public Quantity<U> add(Quantity<U> other){
+	 * if(other.unit.getClass()!=this.unit.getClass()) { throw new
+	 * IllegalArgumentException("Can't possible substract between another units!");
+	 * } this.validateArithmeticOperands(other, null, false); double baseResult =
+	 * performBaseArithmetic(other, ArithmeticOperation.ADD); double finalResult =
+	 * this.unit.convertFromBaseUnit(baseResult); return new
+	 * Quantity<>(finalResult,this.unit); }
+	 */
+	
 	//add with target unit
 	public Quantity<U> add(Quantity<U> other, U targetUnit){
 		if(other.unit.getClass()!=this.unit.getClass()) {
@@ -58,17 +58,18 @@ public class Quantity<U extends IMeasurable> {
 		return new Quantity<>(finalResult,targetUnit);
 	}
 	
-	//subtract method
-	public Quantity<U> subtract(Quantity<U> other){
-		this.validateArithmeticOperands(other, null, false);
-		if(other.unit.getClass()!=this.unit.getClass()) {
-			throw new IllegalArgumentException("Can't possible substract between another units!");
-		}
-		
-		double baseResult = performBaseArithmetic(other, ArithmeticOperation.SUBTRACT);
-	    double finalResult = this.unit.convertFromBaseUnit(baseResult);
-		return new Quantity<>(finalResult,this.unit);
-	}
+	/*
+	 * //subtract method public Quantity<U> subtract(Quantity<U> other){
+	 * this.validateArithmeticOperands(other, null, false);
+	 * if(other.unit.getClass()!=this.unit.getClass()) { throw new
+	 * IllegalArgumentException("Can't possible substract between another units!");
+	 * }
+	 * 
+	 * double baseResult = performBaseArithmetic(other,
+	 * ArithmeticOperation.SUBTRACT); double finalResult =
+	 * this.unit.convertFromBaseUnit(baseResult); return new
+	 * Quantity<>(finalResult,this.unit); }
+	 */
 	
 	//subtract method for specific unit
 	public Quantity<U> subtract(Quantity<U> other, U targetUnit){
@@ -82,24 +83,26 @@ public class Quantity<U extends IMeasurable> {
 		return new Quantity<>(finalResult,targetUnit);
 	}
 	
-	//division
-	public double divide(Quantity<U> other){
-		if(other.unit.getClass()!=this.unit.getClass()) {
-			throw new IllegalArgumentException("Can't possible substract between another units!");
-		}
-		this.validateArithmeticOperands(other, null, false);
-		return performBaseArithmetic(other, ArithmeticOperation.DIVIDE);
-	}
 	
-	public double divide(Quantity<U> other, U targetUnit){
-		if(other.unit.getClass()!=this.unit.getClass()) {
-			throw new IllegalArgumentException("Can't possible substract between another units!");
-		}
-		this.validateArithmeticOperands(other, targetUnit, true);
-		double baseResult = performBaseArithmetic(other, ArithmeticOperation.DIVIDE);
-	    double finalResult = targetUnit.convertFromBaseUnit(baseResult);
-	    return finalResult;
-	}
+	/*
+	 * //division public double divide(Quantity<U> other){
+	 * if(other.unit.getClass()!=this.unit.getClass()) { throw new
+	 * IllegalArgumentException("Can't possible substract between another units!");
+	 * } this.validateArithmeticOperands(other, null, false); return
+	 * performBaseArithmetic(other, ArithmeticOperation.DIVIDE); }
+	 */
+	  
+	  public double divide(Quantity<U> other, U targetUnit){
+	  if(other.unit.getClass()!=this.unit.getClass())
+	  { 
+	  		throw new IllegalArgumentException("Can't possible substract between another units!");
+	  }
+	  this.validateArithmeticOperands(other, targetUnit, true);
+	  double baseResult = performBaseArithmetic(other, ArithmeticOperation.DIVIDE); 
+	  double finalResult = targetUnit.convertFromBaseUnit(baseResult);
+	  return finalResult;
+	  }
+
 	
 	//equals
 	@Override
