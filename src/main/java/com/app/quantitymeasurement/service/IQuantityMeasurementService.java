@@ -1,20 +1,31 @@
 package com.app.quantitymeasurement.service;
 
-import com.app.quantitymeasurement.entity.*;
+import java.util.List;
+
+import com.app.quantitymeasurement.model.*;
 
 public interface IQuantityMeasurementService {
 	
-	public boolean compare(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO);
+	public QuantityMeasurementDTO compare(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO);
 	
-	public QuantityDTO convert(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO);
+	public QuantityMeasurementDTO convert(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO);
 	
-	public QuantityDTO add(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO);
+	public QuantityMeasurementDTO add(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO);
 	
-	public QuantityDTO add(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO,QuantityDTO targetUnitDTO );
+	public QuantityMeasurementDTO add(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO,QuantityDTO targetUnitDTO );
 	
-	public QuantityDTO subtract(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO);
+	public QuantityMeasurementDTO subtract(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO);
 	
-	public QuantityDTO subtract(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO,QuantityDTO targetUnitDTO );
+	public QuantityMeasurementDTO subtract(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO,QuantityDTO targetUnitDTO );
 	
-	public double divide(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO);
+	public QuantityMeasurementDTO divide(QuantityDTO thisQuantityDTO, QuantityDTO thatQuantityDTO);
+	
+	List<QuantityMeasurementDTO> getOpeartionHistory(String operation);
+	
+	List<QuantityMeasurementDTO> getMeasurementByType(String type);
+	
+	Long getOperationCount(String operation);
+	
+	List<QuantityMeasurementDTO> getErrorHistory();
+	
 }
