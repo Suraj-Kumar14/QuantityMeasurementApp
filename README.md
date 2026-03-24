@@ -18,39 +18,71 @@ This project was implemented incrementally using:
 
 ---
 
-## 📅 24 Feb 2026
+# 🌱 UC17 – Spring Boot Backend
 
-### 🔹 UC14 – Temperature Measurement with Selective Arithmetic Support & Measurable Refactoring
+📅 **12 Mar 2026**  
+🔖 **Branch:** `feature/UC17-SpringBackend`
 
-**Branch:** `feature/UC14-TemperatureMeasurementwithSelectiveArithmetic`
+## 🎯 Objective
 
-### 🎯 Objective
+Develop a **Spring Boot backend API** for quantity measurement services.
 
-- Add Temperature measurement category
-- Support Celsius & Fahrenheit
-- Restrict invalid arithmetic operations
-- Refactor measurable behavior
+---
 
-### ⚠ Special Challenge
+## 🧠 Spring Concepts Used
 
-Temperature is **not purely linear like length or weight**  
-Conversion requires formula-based transformation:
+- Spring Framework
+- Spring Boot
+- Spring MVC
+- REST API Development
+- Dependency Injection
+- Spring Service Layer
+- Logging Framework
+- Spring Data JPA
 
-- °F = (°C × 9/5) + 32
+---
 
-### ✅ Implementation
+## 🏗 Backend Architecture
 
-- Created `TemperatureUnit` enum
-- Implemented formula-based conversion logic
-- Allowed equality comparison
-- Restricted unsupported arithmetic (e.g., adding two temperatures directly)
-- Applied measurable abstraction refactoring
+```
+Client Request
+      │
+      ▼
+REST Controller
+      │
+      ▼
+Service Layer
+      │
+      ▼
+Repository Layer
+      │
+      ▼
+Database
+```
 
-### 🧠 Architectural Enhancement
+---
 
-- Introduced selective arithmetic capability
-- Improved domain modeling
-- Applied behavior-driven restrictions
-- [feature/UC14-TemperatureMeasurementwithSelectiveArithmetic](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC14-TemperatureMeasurementwithSelectiveArithmetic/src)
+## 📦 Core Components
+
+| Component  | Role               |
+| ---------- | ------------------ |
+| Controller | REST API endpoints |
+| Service    | Business logic     |
+| Repository | Data persistence   |
+| Entity     | JPA domain objects |
+
+---
+
+## ✅ Implementation
+
+- Created **Spring Boot application**
+- Developed **RESTful APIs**
+- Implemented **Service and Repository layers**
+- Integrated **Spring Data JPA**
+- Added **structured logging**
+
+🔗 Repository
+
+- [feature/UC17-SpringBackend](https://github.com/Suraj-Kumar14/QuantityMeasurementApp/tree/feature/UC17-SpringBackend)
 
 ---
