@@ -4,3 +4,86 @@
 .classpath
 .settings/
 .metadata/
+####################################
+# Maven
+####################################
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+.factorypath
+
+####################################
+# Logs
+####################################
+logs/
+*.log
+
+####################################
+# Spring Boot
+####################################
+*.jar
+*.war
+*.ear
+
+####################################
+# IDE - IntelliJ
+####################################
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+####################################
+# IDE - Eclipse / STS
+####################################
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+####################################
+# IDE - VS Code
+####################################
+.vscode/
+
+####################################
+# NetBeans
+####################################
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+####################################
+# OS Files
+####################################
+.DS_Store
+Thumbs.db
+
+####################################
+# Node (if Angular inside project)
+####################################
+node_modules/
+dist/
+
+####################################
+# Environment / Secrets
+####################################
+.env
+.env.*
+application-local.properties
+application-dev.properties
+
+####################################
+# Wrapper files (optional)
+####################################
+.mvn/wrapper/maven-wrapper.jar
