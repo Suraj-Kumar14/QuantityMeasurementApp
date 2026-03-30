@@ -68,6 +68,7 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
 		Quantity<IMeasurable> q1 = new Quantity<>(m1.getValue(), m1.getUnit());
 
 		double value1 = q1.convertTo(m2.getUnit());
+		
 		// 4. save to repository
 		QuantityMeasurementEntity entity = new QuantityMeasurementEntity(thisQuantityDTO.getValue(),
 				thisQuantityDTO.getUnit(), thisQuantityDTO.getMeasurementType(), thatQuantityDTO.getValue(),
