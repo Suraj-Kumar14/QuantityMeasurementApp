@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -11,87 +12,58 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-	
-	@ExceptionHandler(RuntimeException.class)
-	public ResponseEntity<ErrorResponse> handleRunTimeException(RuntimeException e, HttpServletRequest request){
-		ErrorResponse errro = new ErrorResponse();
-		errro.setDateTime(LocalDateTime.now());
-		errro.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-		errro.setError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
-		errro.setMessage(e.getMessage());
-		errro.setPath(request.getRequestURL().toString());
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errro);
-	}
-	
-	/*
-	 * @ExceptionHandler(QuantityMeasurementException.class) public
-	 * ResponseEntity<ErrorResponse>
-	 * handleCategoryMismatchException(IllegalArgumentException e,
-	 * HttpServletRequest request){ ErrorResponse errro = new ErrorResponse();
-	 * errro.setDateTime(LocalDateTime.now());
-	 * errro.setStatus(HttpStatus.BAD_REQUEST.value());
-	 * errro.setError(HttpStatus.BAD_REQUEST.getReasonPhrase());
-	 * errro.setMessage(e.getMessage());
-	 * errro.setPath(request.getRequestURL().toString()); return
-	 * ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errro); }
-	 */	
-	
-	/*
-	 * @ExceptionHandler(QuantityMeasurementException.class) public
-	 * ResponseEntity<ErrorResponse>
-	 * handleInvalidUnitException(QuantityMeasurementException e, HttpServletRequest
-	 * request){ ErrorResponse errro = new ErrorResponse();
-	 * errro.setDateTime(LocalDateTime.now());
-	 * errro.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
-	 * errro.setError(HttpStatus.NOT_ACCEPTABLE.getReasonPhrase());
-	 * errro.setMessage(e.getMessage());
-	 * errro.setPath(request.getRequestURL().toString()); return
-	 * ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errro); }
-	 */
-	
-	@ExceptionHandler(IllegalArgumentException.class)
-	public ResponseEntity<ErrorResponse> handleInvalidUnitMeasurementException(QuantityMeasurementException e, HttpServletRequest request){
-		ErrorResponse errro = new ErrorResponse();
-		errro.setDateTime(LocalDateTime.now());
-		errro.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
-		errro.setError(HttpStatus.NOT_ACCEPTABLE.getReasonPhrase());
-		errro.setMessage(e.getMessage());
-		errro.setPath(request.getRequestURL().toString());
-		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errro);
-	}
-	
-	@ExceptionHandler(QuantityMeasurementException.class)
-	public ResponseEntity<ErrorResponse> handleQuantityMeasurementException(QuantityMeasurementException e, HttpServletRequest request){
-		ErrorResponse errro = new ErrorResponse();
-		errro.setDateTime(LocalDateTime.now());
-		errro.setStatus(HttpStatus.BAD_REQUEST.value());
-		errro.setError("Quantity Measurement Error");
-		errro.setMessage(e.getMessage());
-		errro.setPath(request.getRequestURL().toString());
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errro);
-	}
-	
-	/*
-	 * @ExceptionHandler(UnsupportedOperationException.class) public
-	 * ResponseEntity<ErrorResponse>
-	 * handleUnsupportedOperationException(UnsupportedOperationException e,
-	 * HttpServletRequest request){ ErrorResponse errro = new ErrorResponse();
-	 * errro.setDateTime(LocalDateTime.now());
-	 * errro.setStatus(HttpStatus.BAD_REQUEST.value());
-	 * errro.setError("This operation not supported yet!");
-	 * errro.setMessage(e.getMessage());
-	 * errro.setPath(request.getRequestURL().toString()); return
-	 * ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errro); }
-	 */
-	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorResponse> handle(Exception e, HttpServletRequest request){
-		ErrorResponse errro = new ErrorResponse();
-		errro.setDateTime(LocalDateTime.now());
-		errro.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-		errro.setError("Internal Server error!");
-		errro.setMessage(e.getMessage());
-		errro.setPath(request.getRequestURL().toString());
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errro);
-	}
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(
+            IllegalArgumentException e, HttpServletRequest request) {
+        return build(HttpStatus.NOT_ACCEPTABLE, e.getMessage(), request);
+    }
+
+    @ExceptionHandler(QuantityMeasurementException.class)
+    public ResponseEntity<ErrorResponse> handleQuantityMeasurementException(
+            QuantityMeasurementException e, HttpServletRequest request) {
+        return build(HttpStatus.BAD_REQUEST, e.getMessage(), request);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidationException(
+            MethodArgumentNotValidException e, HttpServletRequest request) {
+        String message = e.getBindingResult().getFieldErrors().stream()
+                .findFirst()
+                .map(err -> err.getDefaultMessage())
+                .orElse("Validation failed");
+        return build(HttpStatus.BAD_REQUEST, message, request);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(
+            Exception e, HttpServletRequest request) {
+        return build(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), request);
+    }
+
+    private ResponseEntity<ErrorResponse> build(HttpStatus status, String message, HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                status.value(),
+                status.getReasonPhrase(),
+                message,
+                request.getRequestURL().toString()
+        );
+        return ResponseEntity.status(status).body(error);
+    }
+    
+    @ExceptionHandler(org.springframework.security.authentication.BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(
+            org.springframework.security.authentication.BadCredentialsException e,
+            HttpServletRequest request) {
+
+        ErrorResponse error = new ErrorResponse();
+        error.setDateTime(LocalDateTime.now());
+        error.setStatus(HttpStatus.UNAUTHORIZED.value());
+        error.setError(HttpStatus.UNAUTHORIZED.getReasonPhrase());
+        error.setMessage("Invalid username/email or password");
+        error.setPath(request.getRequestURL().toString());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
 }
