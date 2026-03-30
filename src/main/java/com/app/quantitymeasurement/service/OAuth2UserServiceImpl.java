@@ -59,7 +59,7 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
                     .build();
             return userRepository.save(newUser);
         });
-
+        
         return oauth2User;
     }
 }
