@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.app.quantitymeasurement.dto.QuantityInputDTO;
 import com.app.quantitymeasurement.dto.QuantityMeasurementDTO;
+import com.app.quantitymeasurement.entity.QuantityMeasurementEntity;
 import com.app.quantitymeasurement.service.IQuantityMeasurementService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -175,5 +176,11 @@ public class QuantityMeasurementController {
     @GetMapping("/history/errored")
     public ResponseEntity<List<QuantityMeasurementDTO>> getErroredOperations() {
         return ResponseEntity.ok(quantityMeasurementService.getErrorHistory());
+    }
+    
+    @GetMapping("/history")
+    public ResponseEntity<List<QuantityMeasurementEntity>> getAllHistory() {
+        List<QuantityMeasurementEntity> history = quantityMeasurementService.getAllHistory();
+        return ResponseEntity.ok(history);
     }
 }
