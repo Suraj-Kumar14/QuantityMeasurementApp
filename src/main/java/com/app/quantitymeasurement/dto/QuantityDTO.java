@@ -3,6 +3,7 @@ package com.app.quantitymeasurement.dto;
 import java.util.logging.Logger;
 
 import com.app.quantitymeasurement.unit.IMeasurable;
+import com.app.quantitymeasurement.unit.TemperatureUnit;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;
@@ -123,35 +124,34 @@ public class QuantityDTO {
 
 	@AssertTrue(message = "Unit must be valid for the specified measurement type")
 	public boolean isValidUnit() {
-		logger.info("Validating unit: "+unit +" for measurement type: "+measurementType);
-		
-		try {
-			switch(measurementType) {
-				case "LengthUnit":
-					LengthUnit.valueOf(unit);
-					break;
-					
-				case "WeightUnit":
-					LengthUnit.valueOf(unit);
-					break;
-					
-				case "VolumeUnit":
-					LengthUnit.valueOf(unit);
-					break;
-					
-				case "TemperatureUnit":
-					LengthUnit.valueOf(unit);
-					break;
-					
-				default:
-					return false;
-			}
-		}catch(IllegalArgumentException e) {
-			return false;
-		}
-		return true;
+	    if (unit == null || measurementType == null) {
+	        return false;
+	    }
+
+	    try {
+	        switch (measurementType) {
+	            case "LengthUnit":
+	                LengthUnit.valueOf(unit);
+	                return true;
+
+	            case "WeightUnit":
+	                WeightUnit.valueOf(unit);
+	                return true;
+
+	            case "VolumeUnit":
+	                VolumeUnit.valueOf(unit);
+	                return true;
+
+	            case "TemperatureUnit":
+	                TemperatureUnit.valueOf(unit);
+	                return true;
+
+	            default:
+	                return false;
+	        }
+	    } catch (IllegalArgumentException e) {
+	        return false;
+	    }
 	}
-
-
 
 }
