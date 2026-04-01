@@ -265,4 +265,9 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
 			throw new QuantityMeasurementException("Unit Type is not valid for");
 		}
 	}
+
+	@Override
+	public List<QuantityMeasurementEntity> getAllHistory() {
+	    return repository.findAll();
+	}
 }
