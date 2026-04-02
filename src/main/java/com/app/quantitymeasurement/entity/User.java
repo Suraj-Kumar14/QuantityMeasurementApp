@@ -1,5 +1,7 @@
 package com.app.quantitymeasurement.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -39,4 +41,7 @@ public class User {
 	
 	@Column(nullable = false)
 	private boolean enabled = true;
+	
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<QuantityMeasurementEntity> histories;
 }
