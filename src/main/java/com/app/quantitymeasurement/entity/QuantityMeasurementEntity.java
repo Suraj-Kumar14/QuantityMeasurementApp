@@ -81,6 +81,11 @@ public class QuantityMeasurementEntity{
 		updatedAt = LocalDateTime.now();
 	}
 	
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+	
 	 /*
      * Comparison / Conversion
      * Example: 1 ft == 12 in
