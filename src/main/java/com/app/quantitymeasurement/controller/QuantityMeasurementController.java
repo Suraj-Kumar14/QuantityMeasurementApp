@@ -178,9 +178,16 @@ public class QuantityMeasurementController {
         return ResponseEntity.ok(quantityMeasurementService.getErrorHistory());
     }
     
+	/*
+	 * @GetMapping("/history") public
+	 * ResponseEntity<List<QuantityMeasurementEntity>> getAllHistory() {
+	 * List<QuantityMeasurementEntity> history =
+	 * quantityMeasurementService.getAllHistory(); return
+	 * ResponseEntity.ok(history); }
+	 */
+    
     @GetMapping("/history")
-    public ResponseEntity<List<QuantityMeasurementEntity>> getAllHistory() {
-        List<QuantityMeasurementEntity> history = quantityMeasurementService.getAllHistory();
-        return ResponseEntity.ok(history);
+    public ResponseEntity<List<QuantityMeasurementDTO>> getHistory() {
+        return ResponseEntity.ok(quantityMeasurementService.getCurrentUserHistory());
     }
 }
