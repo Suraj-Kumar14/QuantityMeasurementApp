@@ -31,4 +31,6 @@ public interface IQuantityMeasurementService {
 	List<QuantityMeasurementDTO> getErrorHistory();	
 	
 	List<QuantityMeasurementEntity>getAllHistory();
+	
+	List<QuantityMeasurementDTO> getCurrentUserHistory();
 }
