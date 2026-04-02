@@ -30,4 +30,7 @@ public interface QuantityMeasurementRepository extends JpaRepository<QuantityMea
 	//find measurement with errors
 	List <QuantityMeasurementEntity> findByIsErrorTrue();
 	
+	//find history by user id
+	List<QuantityMeasurementEntity> findByUserIdOrderByCreatedAtDesc(Long userId);
+	
 }
