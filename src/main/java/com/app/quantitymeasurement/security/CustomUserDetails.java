@@ -24,12 +24,16 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return user.getPassword();   // very important
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername() != null ? user.getUsername() : user.getEmail();
+        return user.getUsername();   // or user.getEmail(), but be consistent
+    }
+
+    public String getEmail() {
+        return user.getEmail();
     }
 
     @Override
@@ -51,5 +55,4 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return user.isEnabled();
     }
-    
 }
