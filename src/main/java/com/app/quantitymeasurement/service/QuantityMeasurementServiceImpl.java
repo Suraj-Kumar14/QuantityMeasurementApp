@@ -4,15 +4,19 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.app.quantitymeasurement.dto.QuantityDTO;
 import com.app.quantitymeasurement.dto.QuantityMeasurementDTO;
 import com.app.quantitymeasurement.dto.QuantityModel;
 import com.app.quantitymeasurement.entity.QuantityMeasurementEntity;
+import com.app.quantitymeasurement.entity.User;
 import com.app.quantitymeasurement.exception.QuantityMeasurementException;
 import com.app.quantitymeasurement.quantity.Quantity;
 import com.app.quantitymeasurement.repository.QuantityMeasurementRepository;
+import com.app.quantitymeasurement.repository.UserRepository;
 //import com.app.quantitymeasurement.repository.IQuantityMeasurementRepository;
 import com.app.quantitymeasurement.unit.*;
 
@@ -23,6 +27,9 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
 
 	@Autowired
 	private QuantityMeasurementRepository repository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	private enum Operation {
 		COMPARE, CONVERT, ADD, SUBTRACT, DIVIDE;
@@ -53,7 +60,7 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
 				thatQuantityDTO.getUnit(), thatQuantityDTO.getMeasurementType(), Operation.COMPARE.name(),
 				isEqual ? 1.0 : 0.0, thisQuantityDTO.getUnit(), thisQuantityDTO.getMeasurementType(), null, false,
 				null);
-		repository.save(entity);
+		saveHistoryWithCurrentUser(entity);
 
 		return new QuantityMeasurementDTO().from(entity);
 	}
@@ -73,9 +80,9 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
 		QuantityMeasurementEntity entity = new QuantityMeasurementEntity(thisQuantityDTO.getValue(),
 				thisQuantityDTO.getUnit(), thisQuantityDTO.getMeasurementType(), thatQuantityDTO.getValue(),
 				thatQuantityDTO.getUnit(), thatQuantityDTO.getMeasurementType(), Operation.CONVERT.name(), value1,
-				thisQuantityDTO.getUnit(), thisQuantityDTO.getMeasurementType(), null, false, null);
+				thatQuantityDTO.getUnit(), thisQuantityDTO.getMeasurementType(), null, false, null);
 
-		repository.save(entity);
+		saveHistoryWithCurrentUser(entity);
 
 		return new QuantityMeasurementDTO().from(entity);
 	}
@@ -198,7 +205,7 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
 				d1.getMeasurementType(), d2.getValue(), d2.getUnit(), d2.getMeasurementType(), opType.name(), resVal,
 				resUnit, d1.getMeasurementType(), null, false, null);
 
-		repository.save(entity);
+		saveHistoryWithCurrentUser(entity);
 
 		return new QuantityMeasurementDTO().from(entity);
 	}
@@ -269,5 +276,49 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
 	@Override
 	public List<QuantityMeasurementEntity> getAllHistory() {
 	    return repository.findAll();
+	}
+
+	private User getCurrentLoggedInUser() {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    String loginValue = authentication.getName();
+
+	    return userRepository.findByUsername(loginValue)
+	            .or(() -> userRepository.findByEmail(loginValue))
+	            .orElseThrow(() -> new RuntimeException("Logged in user not found"));
+	}
+	
+	private QuantityMeasurementEntity saveHistoryWithCurrentUser(QuantityMeasurementEntity entity) {
+	    User user = getCurrentLoggedInUser();
+	    entity.setUser(user);
+	    return repository.save(entity);
+	}
+	
+	private QuantityMeasurementDTO convertEntityToDTO(QuantityMeasurementEntity entity) {
+	    QuantityMeasurementDTO dto = new QuantityMeasurementDTO();
+
+	    dto.setOperation(entity.getOperation());
+	    dto.setThisValue(entity.getThisValue());
+	    dto.setThisUnit(entity.getThisUnit());
+	    dto.setThisMeasurementType(entity.getThisMeasurementType());
+	    dto.setThatValue(entity.getThatValue());
+	    dto.setThatUnit(entity.getThatUnit());
+	    dto.setThatMeasurementType(entity.getThatMeasurementType());
+	    dto.setResultValue(entity.getResultValue());
+	    dto.setResultUnit(entity.getResultUnit());
+	    dto.setResultMeasurementType(entity.getResultMeasurementType());
+	    dto.setResultString(entity.getResultString());
+	    dto.setError(entity.isError());
+	    dto.setErrorMessage(entity.getErrorMessage());
+
+	    return dto;
+	}
+	
+	@Override
+	public List<QuantityMeasurementDTO> getCurrentUserHistory() {
+	    User user = getCurrentLoggedInUser();
+	    return repository.findByUserIdOrderByCreatedAtDesc(user.getId())
+	            .stream()
+	            .map(this::convertEntityToDTO)
+	            .toList();
 	}
 }
