@@ -34,7 +34,7 @@ spring:
             scope:
               - email
               - profile
-
+            redirect-uri: "http://localhost:8080/login/oauth2/code/{registrationId}"
 eureka:
   client:
     service-url:
