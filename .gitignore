@@ -1,0 +1,74 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Maven Wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# Backup files
+*.bak
+
+# Java
+*.class
+*.log
+*.ctxt
+*.jar
+*.war
+*.nar
+*.ear
+hs_err_pid*
+replay_pid*
+
+# Eclipse / STS
+.metadata/
+bin/
+tmp/
+*.tmp
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+.project
+.classpath
+.factorypath
+
+# VS Code
+.vscode/
+
+# IntelliJ
+.idea/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Application dump / old code backup
+dump/
+
+# Database / serialized files
+*.db
+*.mv.db
+*.trace.db
+*.ser
+
+# Logs
+logs/
+*.log
+
+# Spring Boot
+spring.log
+
+# H2 database files
+*.h2.db
+
+# Optional: generated help file
+HELP.md
