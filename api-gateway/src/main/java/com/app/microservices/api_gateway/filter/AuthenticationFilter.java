@@ -37,14 +37,16 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
             String path = exchange.getRequest().getURI().getPath();
 
-            // 1. Check Authorization Header
+            if (exchange.getRequest().getMethod().name().equals("OPTIONS")) {
+                return chain.filter(exchange);
+            }
+            
             if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                 return onError(exchange, "Missing Authorization Header", HttpStatus.UNAUTHORIZED, path);
             }
 
             String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
-            // 2. Validate Bearer Format
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 return onError(exchange, "Invalid Authorization Header Format", HttpStatus.UNAUTHORIZED, path);
             }
@@ -52,17 +54,15 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             String token = authHeader.substring(7);
 
             try {
-                // 3. Extract & Validate Token
-                String email = jwtService.extractEmail(token);
+                String username = jwtService.extractUsername(token);
 
                 if (jwtService.isTokenExpired(token)) {
                     return onError(exchange, "Token Expired", HttpStatus.UNAUTHORIZED, path);
                 }
 
-                // 4. Pass user info downstream
                 return chain.filter(exchange.mutate()
                         .request(exchange.getRequest().mutate()
-                                .header("X-User-Email", email)
+                                .header("X-User-Name", username)
                                 .build())
                         .build());
 
@@ -72,11 +72,10 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         };
     }
 
-    // 🔥 Centralized Error Response Method
     private Mono<Void> onError(org.springframework.web.server.ServerWebExchange exchange,
-                              String message,
-                              HttpStatus status,
-                              String path) {
+                               String message,
+                               HttpStatus status,
+                               String path) {
 
         exchange.getResponse().setStatusCode(status);
         exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
