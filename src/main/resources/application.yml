@@ -17,14 +17,14 @@ spring:
               - profile
               - email
           github:
-            client-id: ${GITHUB_CLIENT_ID:test-github-client}
-            client-secret: ${GITHUB_CLIENT_SECRET:test-github-secret}
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
             scope:
               - read:user
               - user:email
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 logging:
   level:
