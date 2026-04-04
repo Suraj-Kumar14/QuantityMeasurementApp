@@ -22,17 +22,18 @@ spring:
               - user:email
 
   datasource:
-    url: jdbc:mysql://localhost:3306/kali
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:none}
-    hikari:
-      maximum-pool-size: 20
-      minimum-idle: 5
+    url: jdbc:h2:file:/app/data/quantitymeasurementdb;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: false
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     show-sql: false
     open-in-view: false
 
@@ -52,10 +53,10 @@ springdoc:
     enabled: true
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 app:
-  frontend-url: ${FRONTEND_URL:http://localhost:3000}
+  frontend-url: ${FRONTEND_URL:http://localhost:4200}
   jwt:
     secret: ${JWT_SECRET:ThisIsASecretKeyForJwtTokenGenerationAtLeast32CharsLong123}
     expiration-ms: 86400000
