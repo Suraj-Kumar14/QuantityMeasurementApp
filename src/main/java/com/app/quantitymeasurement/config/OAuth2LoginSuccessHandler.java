@@ -43,24 +43,45 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
 
-        String email = oauth2User.getAttribute("email");
-        String name = oauth2User.getAttribute("name");
-        String providerId = oauth2User.getAttribute("sub"); // Google unique id
+        String registrationId = request.getRequestURI().contains("github") ? "github" : "google";
 
-        if (email == null || email.isBlank()) {
-            response.sendRedirect(frontendUrl + "/auth?error="
+        String email = null;
+        String name = null;
+        String providerId = null;
+        AuthProvider provider = null;
+
+        if ("google".equals(registrationId)) {
+            email = oauth2User.getAttribute("email");
+            name = oauth2User.getAttribute("name");
+            providerId = oauth2User.getAttribute("sub");
+            provider = AuthProvider.GOOGLE;
+        } else if ("github".equals(registrationId)) {
+            email = oauth2User.getAttribute("email");
+            name = oauth2User.getAttribute("name");
+            if (name == null || name.isBlank()) {
+                name = oauth2User.getAttribute("login");
+            }
+            Object idObj = oauth2User.getAttribute("id");
+            providerId = idObj != null ? String.valueOf(idObj) : null;
+            provider = AuthProvider.GITHUB;
+        }
+
+        if ("google".equals(registrationId) && (email == null || email.isBlank())) {
+            response.sendRedirect(frontendUrl + "/auth?oauth2=failed&error="
                     + URLEncoder.encode("Email not received from Google", StandardCharsets.UTF_8));
             return;
         }
 
-        Optional<User> existingUser = userRepository.findByEmail(email);
+        if ("github".equals(registrationId) && (email == null || email.isBlank())) {
+            email = providerId + "@github.local";
+        }
 
+        Optional<User> existingUser = userRepository.findByEmail(email);
         User user;
 
         if (existingUser.isPresent()) {
             user = existingUser.get();
-
-            user.setProvider(AuthProvider.GOOGLE);
+            user.setProvider(provider);
             user.setProviderId(providerId);
             user.setEnabled(true);
 
@@ -73,18 +94,17 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             }
 
             if (user.getPassword() == null || user.getPassword().isBlank()) {
-                user.setPassword(passwordEncoder.encode("GOOGLE_USER"));
+                user.setPassword(passwordEncoder.encode(provider.name() + "_USER"));
             }
 
             user = userRepository.save(user);
-
         } else {
             user = User.builder()
                     .username(generateUniqueUsername(email, name))
                     .email(email)
-                    .password(passwordEncoder.encode("GOOGLE_USER"))
+                    .password(passwordEncoder.encode(provider.name() + "_USER"))
                     .role(Role.USER)
-                    .provider(AuthProvider.GOOGLE)
+                    .provider(provider)
                     .providerId(providerId)
                     .enabled(true)
                     .build();
@@ -96,7 +116,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         response.sendRedirect(frontendUrl + "/auth?token="
                 + URLEncoder.encode(token, StandardCharsets.UTF_8)
-                + "&oauth2=success");
+                + "&oauth2=" + registrationId);
     }
 
     private String generateUniqueUsername(String email, String name) {
