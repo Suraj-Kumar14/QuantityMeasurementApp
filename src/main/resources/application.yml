@@ -44,7 +44,7 @@ springdoc:
     enabled: true
 
 app:
-  frontend-url: ${FRONTEND_URL:http://localhost:4200}
+  frontend-url: ${FRONTEND_URL}
   jwt:
-    secret: ${JWT_SECRET:ThisIsASecretKeyForJwtTokenGenerationAtLeast32CharsLong123}
+    secret: ${JWT_SECRET}
     expiration-ms: 86400000
