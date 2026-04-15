@@ -35,10 +35,26 @@ spring:
               - email
               - profile
             redirect-uri: "http://localhost:8080/login/oauth2/code/{registrationId}"
+
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+            scope:
+              - read:user
+              - user:email
+            redirect-uri: "http://13.234.38.122:8080/login/oauth2/code/{registrationId}"
+
+  boot:
+    admin:
+      client:
+        url: http://admin-service:9090
+        instance:
+          prefer-ip: true
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
   instance:
     prefer-ip-address: true
 
@@ -50,11 +66,6 @@ management:
   endpoint:
     health:
       show-details: always
-
-spring.boot.admin.client:
-  url: http://localhost:9090
-  instance:
-    prefer-ip: true
 
 app:
   jwt:

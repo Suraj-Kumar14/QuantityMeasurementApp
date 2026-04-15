@@ -1,0 +1,58 @@
+services:
+  eureka-server:
+    image: suraj012/eureka-server:latest
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    restart: always
+
+  api-gateway:
+    image: suraj012/api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+    restart: always
+
+  auth-service:
+    image: suraj012/auth-service:latest
+    container_name: auth-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+    restart: always
+    environment:
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      JWT_SECRET: ${JWT_SECRET}
+
+  quantity-service:
+    image: suraj012/quantity-service:latest
+    container_name: quantity-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka-server
+    restart: always
+
+  admin-service:
+    image: suraj012/admin-service:latest
+    container_name: admin-service
+    ports:
+      - "9090:9090"
+    depends_on:
+      - eureka-server
+    restart: always
+
+  frontend:
+    image: suraj012/quantity-frontend:latest
+    container_name: quantity-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api-gateway
+    restart: always
