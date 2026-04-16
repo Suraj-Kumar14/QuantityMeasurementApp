@@ -42,7 +42,7 @@ spring:
             scope:
               - read:user
               - user:email
-            redirect-uri: "http://13.234.38.122:8080/login/oauth2/code/{registrationId}"
+            redirect-uri: "http://13.206.157.162:8080/login/oauth2/code/{registrationId}"
 
   boot:
     admin:

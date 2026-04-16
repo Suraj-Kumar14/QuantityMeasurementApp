@@ -20,7 +20,7 @@ spring:
               - "http://localhost:80"
               - "http://127.0.0.1"
               - "http://localhost:4200"
-              - "http://13.234.38.122"
+              - "http://13.206.157.162"
             allowedMethods:
               - GET
               - POST

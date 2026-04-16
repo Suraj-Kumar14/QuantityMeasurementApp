@@ -64,7 +64,7 @@ public class SecurityConfig {
             .oauth2Login(oauth -> oauth
                     .userInfoEndpoint(user -> user.userService(oAuth2UserService))
                     .successHandler(oAuth2LoginSuccessHandler)
-                    .failureUrl("http://localhost:4200/auth?oauth2=failed")
+                    .failureUrl("http://13.206.157.162/auth?oauth2=failed")
             );
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
